@@ -1,0 +1,10 @@
+//@import "./variables.scss";
+@import "./styleV2.scss";
+@import "./responsive.scss";
+@import "./stepper.scss";
+@import "./flow-authenticate.scss";
+@import "./videos-sala-de-espera.scss";
+@import "./flow-meeting.scss";
+body {
+	touch-action: pan-x pan-y;
+}

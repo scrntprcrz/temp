@@ -1,0 +1,111 @@
+@import "./variables.scss";
+
+#flow-meeting {
+	.botonesFlotantes {
+		& {
+			background-color: transparent !important;
+			//background: yellow;padding-top: 25px;
+		}
+
+		.divBotonesVideoconsulta {
+			& {
+				width: auto !important;
+				margin: 0 0.5rem 1rem 0.5rem !important;
+				padding: 0 !important;
+			}
+			.botones {
+				min-width: auto !important;
+				width: auto !important;
+				padding: 5px 15px;
+				background-color: white !important;
+				border-radius: 8px;
+				.btn {
+					background-color: transparent !important;
+					svg {
+						color: #000 !important;
+						&.icon-compartir {
+							border: none !important;
+						}
+					}
+					:nth-child(2) {
+						display: none !important;
+					}
+				}
+			}
+		}
+	}
+	#button-meeting-end {
+		position: fixed !important;
+		background-color: #a92c29;
+		top: 1rem !important;
+		right: 1rem !important;
+		color: white;
+		border-radius: 8px;
+		z-index: 8888;
+	}
+	.wrapperLeftTop {
+		position: fixed !important;
+		top: 1rem !important;
+		left: 1rem !important;
+		z-index: 8888;
+		button {
+			color: white !important;
+			border-radius: 8px;
+			svg {
+				color: inherit !important;
+			}
+		}
+	}
+
+	#wrapperVideo1 {
+		position: fixed;
+		top: 70px;
+		left: 0;
+		right: 0;
+		z-index: 1000;
+		bottom: 90px;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: center;
+		align-items: center;
+		align-content: center;
+	}
+	#video1 {
+		border-radius: 15px;
+
+		@media (orientation: landscape) {
+			& {
+				height: 90%;
+				width: auto;
+			}
+		}
+
+		@media (orientation: portrait) {
+			& {
+				width: 95%;
+				height: auto;
+			}
+		}
+	}
+
+	#video2 {
+		border-radius: 15px;
+		position: fixed;
+		z-index: 10001;
+		right: 10px;
+		bottom: 90px;
+		border: 1px solid #666;
+		@media (orientation: landscape) {
+			& {
+				height: 100px;
+			}
+		}
+
+		@media (orientation: portrait) {
+			& {
+				width: 100px;
+			}
+		}
+	}
+}

@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+		<title>Document</title>
+	</head>
+	<body>
+		<div
+			id="flow-meeting"
+			class="flowz"
+			style="
+				position: absolute;
+				left: 0;
+				top: 0;
+				bottom: 55px;
+				right: 0;
+				background: #000000;
+				height: 100%;
+			"
+		>
+			<div class="" style="position: fixed; right: 0; bottom: 0; left: 0">
+				<div
+					class="row align-items-end"
+					style="position: fixed; z-index: 99; top: 0; width: 100%"
+				>
+					<div class="col">
+						<div id="chime-meeting-id" class="text-muted"></div>
+						<div id="desktop-attendee-id" class="text-muted"></div>
+					</div>
+					<div class="col d-none d-lg-block" style="display: none">
+						<div
+							id="video-uplink-bandwidth"
+							class="text-muted text-right"
+						></div>
+						<div
+							id="video-downlink-bandwidth"
+							class="text-muted text-right"
+						></div>
+					</div>
+				</div>
+			</div>
+			<audio id="meeting-audio" style="display: none"></audio>
+			<!-- <div id="meeting-container" class="container-fluid h-100" style="display:flex; flex-flow:column"> -->
+			<div
+				id="meeting-container"
+				class="row mb-2 receive-message container-fluid"
+				style="
+					background: rgb(0, 0, 0);
+					flex: auto;
+					margin-right: 0px;
+					margin-left: 0px;
+					display: flex;
+					padding-top: 85px;
+					overflow-x: hidden;
+					overflow-y: auto;
+					height: auto;
+				"
+			>
+				<!-- /////////////////// -->
+				<div
+					class="botonesFlotantes row d-flex justify-content-center"
+					style="
+						width: fit-content;
+						margin-right: 0px;
+						margin-left: 0px;
+						bottom: 5px;
+						background: #ffffff;
+						border-radius: 12px;
+					"
+				>
+					<div class="divBotonesVideoconsulta">
+						<div
+							class="btn-group-vertical botones d-flex"
+							style="height: 100%"
+							role="group"
+							aria-label="Encender/Apagar Micrófono"
+						>
+							<button
+								id="button-microphone"
+								style="margin-top: 8px; padding: 0px"
+								type="button"
+								class="btn visitas"
+								title="Encender/Apagar Micrófono"
+								(click)="enableDisableRule($event.target)"
+							>
+								<i
+									class="fa fa-microphone tipoSvg"
+									style="font-size: 20px"
+								></i>
+								<div>
+									<text style="font-size: 10px">
+										Micrófono</text
+									>
+								</div>
+							</button>
+							<div
+								class="btn-group"
+								role="group"
+								style="display: none"
+							>
+								<button
+									id="button-microphone-drop"
+									style="
+										border-bottom-left-radius: 12px;
+										border-bottom-right-radius: 12px;
+									"
+									type="button"
+									class="
+										btn
+										dropdown-toggle
+										btn-group-secondary-button
+									"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+									title="Seleccione un micrófono"
+								></button>
+								<div
+									id="dropdown-menu-microphone"
+									class="dropdown-menu dropdown-menu-right"
+									aria-labelledby="button-microphone-drop"
+									x-placement="bottom-start"
+									style="
+										position: absolute;
+										transform: translate3d(0px, 38px, 0px);
+										top: 0px;
+										left: 0px;
+										will-change: transform;
+									"
+								>
+									<a class="dropdown-item" href="#"
+										>Micrófono predefinido</a
+									>
+								</div>
+							</div>
+						</div>
+						<!-- <div class="div-labels-buttons-principal text-center pt-2" style="padding-top: 0px !important;">
+					<span class="labels-buttons-principal" id="btnMicrofonoPantalla">Micrófono</span>
+				  </div> -->
+					</div>
+
+					<div class="divBotonesVideoconsulta">
+						<div
+							class="btn-group-vertical botones d-flex"
+							style="height: 100%"
+							role="group"
+							aria-label="Encender/Apagar Cámara"
+						>
+							<button
+								id="button-camera"
+								style="margin-top: 8px; padding: 0px"
+								type="button"
+								class="btn visitas"
+								title="Encender/Apagar Cámara"
+								(click)="enableDisableRule($event.target)"
+							>
+								<i
+									class="fa fa-video-camera tipoSvg"
+									style="font-size: 20px"
+								></i>
+								<div>
+									<text style="font-size: 10px"> Camara</text>
+								</div>
+							</button>
+							<div
+								class="btn-group"
+								role="group"
+								style="display: none"
+							>
+								<button
+									id="button-camera-drop"
+									style="
+										border-bottom-left-radius: 12px;
+										border-bottom-right-radius: 12px;
+									"
+									type="button"
+									class="
+										btn
+										dropdown-toggle
+										btn-group-secondary-button
+									"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+									title="Seleccione una Cámara"
+								></button>
+								<div
+									id="dropdown-menu-camera"
+									class="dropdown-menu dropdown-menu-right"
+									aria-labelledby="button-camera-drop"
+									x-placement="bottom-start"
+									style="
+										position: absolute;
+										transform: translate3d(0px, 38px, 0px);
+										top: 0px;
+										left: 0px;
+										will-change: transform;
+									"
+								>
+									<a class="dropdown-item" href="#"
+										>Cámara predefinida</a
+									>
+								</div>
+							</div>
+						</div>
+						<!-- <div class="div-labels-buttons-principal text-center pt-2" style="padding-top: 0px !important;">
+					<span class="labels-buttons-principal" id="btnCamaraPantalla">Cámara</span>
+				  </div> -->
+					</div>
+
+					<!-- Mostrar Imagen en Escritorio -->
+
+					<!-- BOTON PARA COMPARTIR PANTALLA style="display: none" -->
+					<div
+						id="compartirPantalla"
+						class="divBotonesVideoconsulta noPaciente noMobile"
+					>
+						<div
+							class="btn-group-vertical botones d-flex"
+							style="height: 100%"
+							role="group"
+							aria-label="Compartir pantalla"
+						>
+							<button
+								id="button-content-share"
+								style="margin-top: 8px; padding: 0px"
+								type="button"
+								class="btn visitas"
+								title="Compartir un archivo"
+								(click)="enableDisableRule($event.target)"
+							>
+								<i
+									class="fa fa-upload icon-compartir"
+									style="font-size: 21px"
+								></i>
+								<div>
+									<text style="font-size: 10px">
+										Compartir</text
+									>
+								</div>
+							</button>
+							<div
+								class="btn-group"
+								style="display: none"
+								role="group"
+							>
+								<button
+									id="button-content-share-drop"
+									style="
+										border-bottom-left-radius: 12px;
+										border-bottom-right-radius: 12px;
+									"
+									type="button"
+									class="
+										btn
+										dropdown-toggle
+										btn-group-secondary-button
+									"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="true"
+									title="Seleccione el contenido para compartir"
+								></button>
+								<div
+									id="dropdown-menu-content-share"
+									class="dropdown-menu dropdown-menu-right"
+									aria-labelledby="button-content-share-drop"
+									x-placement="bottom-start"
+									style="
+										position: absolute;
+										transform: translate3d(0px, 38px, 0px);
+										top: 0px;
+										left: 0px;
+										will-change: transform;
+									"
+								>
+									<a
+										id="dropdown-item-content-share-screen-capture"
+										class="dropdown-item"
+										href="#"
+										>Compartir pantalla...</a
+									>
+								</div>
+							</div>
+						</div>
+						<div
+							class="
+								div-labels-buttons-principal
+								text-center
+								pt-2
+							"
+							style="display: none"
+						>
+							<!-- <span class="labels-buttons-principal" id="btnSharePantalla">Compartir un archivo</span>  -->
+						</div>
+					</div>
+
+					<div class="divBotonesVideoconsulta" style="display: none">
+						<div
+							class="btn-group-vertical botones d-flex"
+							style="height: 100%"
+							role="group"
+							aria-label="Encender/Apagar parlantes"
+						>
+							<button
+								id="button-speaker"
+								style="margin-top: 8px; padding: 0px"
+								type="button"
+								class="btn visitas"
+								title="Encender/Apagar parlantes"
+							>
+								<i
+									class="fa fa-volume-up tipoSvg"
+									style="font-size: 20px"
+								></i>
+								<div>
+									<text style="font-size: 10px">
+										Sonidos</text
+									>
+								</div>
+							</button>
+							<div class="btn-group" role="group">
+								<button
+									id="button-speaker-drop"
+									style="
+										border-bottom-left-radius: 12px;
+										border-bottom-right-radius: 12px;
+									"
+									type="button"
+									class="
+										btn
+										dropdown-toggle
+										btn-group-secondary-button
+									"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+									title="Seleccionar parlantes"
+								></button>
+								<div
+									id="dropdown-menu-speaker"
+									class="dropdown-menu dropdown-menu-right"
+									aria-labelledby="button-speaker-drop"
+									x-placement="bottom-start"
+									style="
+										position: absolute;
+										transform: translate3d(0px, 38px, 0px);
+										top: 0px;
+										left: 0px;
+										will-change: transform;
+									"
+								>
+									<a class="dropdown-item" href="#"
+										>Parlantes predifinidos</a
+									>
+								</div>
+							</div>
+						</div>
+						<!-- <div class="div-labels-buttons-principal text-center pt-2" style="padding-top: 0px !important;">
+					<span class="labels-buttons-principal" id="btnAudioPantalla">Audio</span>
+				  </div> -->
+					</div>
+
+					<div class="divBotonesVideoconsulta" style="display: none">
+						<div
+							class="btn-group-vertical botones d-flex"
+							style="height: 100%"
+							role="group"
+							aria-label="Participantes"
+						>
+							<button
+								id="button-participantes"
+								type="button"
+								style="margin-top: 8px; padding: 0px"
+								class="btn visitas"
+								title="Participantes"
+							>
+								<i
+									class="fa fa-user-circle"
+									style="color: #8b97a3"
+								></i>
+							</button>
+						</div>
+					</div>
+
+					<div class="divBotonesVideoconsulta">
+						<div
+							class="btn-group-vertical botones d-flex"
+							style="height: 100%"
+							role="group"
+							aria-label="Mensajes"
+						>
+							<button
+								id="button-messages"
+								type="button"
+								style="margin-top: 8px; padding: 0px"
+								class="btn visitas"
+								title="Enviar mensaje"
+							>
+								<i
+									class="fa fa-commenting-o"
+									style="
+										color: #3962e6;
+										font-size: 25px;
+										font-weight: 500;
+									"
+								></i>
+								<div>
+									<text style="font-size: 10px"> Chat</text>
+								</div>
+								<span
+									id="alertMessage"
+									style="
+										display: none;
+										position: relative;
+										top: -10px;
+										right: 35px;
+										width: 18px;
+										text-align: center;
+										width: 7px;
+										line-height: 18px;
+										box-shadow: 0 0 1px #3330;
+										height: 18px;
+										border-radius: 50%;
+										font-size: 0.7em;
+									"
+									><i
+										class="fa fa-bell"
+										aria-hidden="true"
+										style="color: #f6a704; position: fixed"
+									></i
+								></span>
+							</button>
+						</div>
+					</div>
+
+					<div class="divBotonesVideoconsulta noPaciente">
+						<div
+							class="btn-group-vertical botones d-flex"
+							style="height: 100%"
+							role="group"
+							aria-label="Iniciar/Finalizar Grabación"
+						>
+							<button
+								id="button-record"
+								style="margin-top: 8px; padding: 0px"
+								type="button"
+								class="btn visitas"
+								title="Iniciar/Finalizar Grabación"
+							>
+								<i
+									class="fa fa-save"
+									style="color: #8b97a3; font-size: 20px"
+									id="iconoGrabar"
+								></i>
+								<div>
+									<text style="font-size: 10px"> Grabar</text>
+								</div>
+							</button>
+						</div>
+					</div>
+
+					<div
+						class="divBotonesVideoconsulta noPaciente"
+						style="display: none"
+					>
+						<div
+							class="btn-group-vertical botones d-flex"
+							style="height: 100%"
+							role="group"
+							aria-label="Terminar la consulta"
+						>
+							<button
+								id="button-meeting-endx"
+								type="button"
+								style="margin-top: 8px; padding: 0px"
+								class="btn visitas"
+								title="Terminar la consulta"
+							>
+								<i
+									class="fa fa-power-off tipoSvg"
+									style="font-size: 20px; color: red"
+								></i>
+								<div>
+									<text style="font-size: 10px">
+										Finalizar</text
+									>
+								</div>
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- //////////// -->
+				<!-- <div id="roster-tile-container" class="row flex-sm-grow-1 overflow-hidden h-100" style="flex: unset;"> -->
+				<div
+					id="roster-tile-container"
+					class="row flex-sm-grow-1 overflow-hidden"
+					style="flex: auto"
+				>
+					<div
+						id="roster-message-container"
+						class="
+							d-flex
+							flex-column
+							col-12 col-sm-6 col-md-5 col-lg-4
+							h-100
+						"
+						style="display: none !important"
+					>
+						<div
+							class="bs-component"
+							style="
+								flex: 1 1 auto;
+								overflow-y: auto;
+								height: 50%;
+							"
+						>
+							<ul id="roster" class="list-group"></ul>
+						</div>
+						<div
+							class="message d-flex flex-column pt-3"
+							style="
+								flex: 1 1 auto;
+								overflow: hidden;
+								height: 50%;
+							"
+						>
+							<div
+								class="list-group receive-message"
+								id="receive-message"
+								style="
+									flex: 1 1 auto;
+									overflow-y: auto;
+									border: 1px solid rgba(0, 0, 0, 0.125);
+									background-color: #fff;
+								"
+							></div>
+							<div
+								class="input-group send-message"
+								style="
+									display: flex;
+									flex: 0 0 auto;
+									margin-top: 0.2rem;
+								"
+							>
+								<textarea
+									class="form-control shadow-none"
+									id="send-message"
+									rows="1"
+									placeholder="Type a message (markdown supported)"
+									style="
+										display: inline-block;
+										width: 100%;
+										resize: none;
+										border-color: rgba(0, 0, 0, 0.125);
+										outline: none;
+										padding-left: 1.4rem;
+									"
+								></textarea>
+							</div>
+						</div>
+					</div>
+					<div
+						id="tile-container"
+						class="
+							col-12 col-sm-12 col-md-12 col-lg-12
+							my-4 my-sm-0
+						"
+						style="
+							overflow-y: scroll;
+							margin-top: 0px !important;
+							padding-right: 0px;
+							padding-left: 0px;
+						"
+					>
+						<div id="tile-area" class="moverDiv">
+							<div id="tile-0" class="video-tile">
+								<video
+									id="video-0"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-0"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-0"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-0" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-1" class="video-tile">
+								<video
+									id="video-1"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-1"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-1"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-1" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-2" class="video-tile">
+								<video
+									id="video-2"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-2"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-2"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-2" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-3" class="video-tile">
+								<video
+									id="video-3"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-3"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-3"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-3" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-4" class="video-tile">
+								<video
+									id="video-4"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-4"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-4"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-4" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-5" class="video-tile">
+								<video
+									id="video-5"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-5"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-5"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-5" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-6" class="video-tile">
+								<video
+									id="video-6"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-6"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-6"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-6" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-7" class="video-tile">
+								<video
+									id="video-7"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-7"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-7"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-7" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-8" class="video-tile">
+								<video
+									id="video-8"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-8"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-8"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-8" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-9" class="video-tile">
+								<video
+									id="video-9"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-9"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-9"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-9" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-10" class="video-tile">
+								<video
+									id="video-10"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-10"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-10"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-10" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-11" class="video-tile">
+								<video
+									id="video-11"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-11"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-11"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-11" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-12" class="video-tile">
+								<video
+									id="video-12"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-12"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-12"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-12" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-13" class="video-tile">
+								<video
+									id="video-13"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-13"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-13"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-13" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-14" class="video-tile">
+								<video
+									id="video-14"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-14"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-14"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-14" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-15" class="video-tile">
+								<video
+									id="video-15"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-15"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-15"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-15" class="video-tile-pause">Pause</button> -->
+							</div>
+							<div id="tile-16" class="video-tile">
+								<video
+									id="video-16"
+									class="video-tile-video"
+								></video>
+								<div
+									id="attendeeid-16"
+									class="video-tile-attendeeid"
+									style="display: none"
+								></div>
+								<div
+									id="nameplate-16"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-16" class="video-tile-pause" class="btn">Pause</button> -->
+							</div>
+							<div id="tile-17" class="video-tile">
+								<video
+									id="video-17"
+									class="video-tile-video"
+								></video>
+								<div
+									id="nameplate-17"
+									class="video-tile-nameplate"
+								></div>
+								<!-- <button id="video-pause-17" class="video-tile-pause" class="btn">Pause</button> -->
+							</div>
+						</div>
+					</div>
+					<video
+						id="content-share-video"
+						crossorigin="anonymous"
+						style="display: none"
+					></video>
+				</div>
+			</div>
+			<!--******************-->
+			<div id="wrapperVideo1">
+				<video id="video1" autoplay></video>
+			</div>
+
+			<video id="video2" autoplay></video>
+
+			<!--****************-->
+			<button
+				id="button-meeting-end"
+				type="button"
+				class="btn"
+				title="Terminar la consulta"
+			>
+				Finalizar
+			</button>
+
+			<div class="wrapperLeftTop">
+				<button
+					id="button-no-sound"
+					type="button"
+					class="btn"
+					title="Cambiar camara"
+				>
+					<i class="fa fa-sync-alt" style="font-size: 21px"></i>
+				</button>
+				<button
+					id="button-no-sound"
+					type="button"
+					class="btn"
+					title="Silenciar"
+				>
+					<i class="fa fa-volume-mute" style="font-size: 21px"></i>
+				</button>
+			</div>
+		</div>
+	</body>
+</html>

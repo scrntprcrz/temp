@@ -1,0 +1,111 @@
+@import "./variables.scss";
+
+#flow-authenticate {
+	& {
+		user-select: none;
+	}
+	#sdk-version {
+		position: fixed;
+		right: 3px;
+		bottom: 3px;
+	}
+	#authenticate,
+	#authenticateCargando,
+	#authenticateTermina {
+		background-color: $primary !important;
+		color: $primary_contrast_text !important;
+		padding-top: 0.53rem;
+		padding-bottom: 0.5em;
+		font-weight: bold;
+		width: 100%;
+		border-radius: $borderRadius;
+		& > #spinner {
+			color: inherit !important;
+		}
+	}
+
+	.lbl-bienvenido_ {
+		font-weight: bold;
+		text-align: center;
+	}
+	.lbl-consulta_ {
+		text-align: center;
+	}
+
+	/*desktop*/
+	@media (min-width: 601px) {
+		& {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			justify-content: center;
+			align-items: stretch;
+			align-content: center;
+			position: fixed;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+		}
+
+		#authenticate,
+		#authenticateCargando,
+		#authenticateTermina {
+			min-width: 320px;
+		}
+
+		.place1 {
+			display: block;
+			flex-grow: 0;
+			flex-shrink: 0;
+			flex-basis: auto;
+			align-self: auto;
+			order: 0;
+
+			.image {
+				width: 50vw;
+				height: auto;
+			}
+		}
+
+		.place2 {
+			display: block;
+			flex-grow: 1;
+			flex-shrink: 1;
+			flex-basis: auto;
+			align-self: auto;
+			order: 0;
+
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			justify-content: center;
+			align-items: center;
+			align-content: center;
+
+			.logoWrapper {
+				position: fixed;
+				top: 0;
+				right: 0;
+				padding: 2rem 3rem 0 0;
+			}
+		}
+	}
+
+	/*mobile*/
+	@media (max-width: 600px) {
+		.place1 {
+			.image {
+				width: 95vw;
+				height: auto;
+			}
+		}
+		.place2 {
+			padding: 0 2rem;
+			.logoWrapper {
+				text-align: center;
+				padding: 1.5rem 0;
+			}
+		}
+	}
+}
